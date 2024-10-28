@@ -6,7 +6,6 @@ using CodeBRDG_TT.Commands;
 namespace CodeBRDG_TT.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
 public class DogController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -18,16 +17,15 @@ public class DogController : ControllerBase
 
     [Route("dogs")]
     [HttpGet]
-    public async Task<IActionResult> GetDogs()
+    public async Task<IActionResult> QueryDogs([FromQuery]DogsQuery query)
     {
-        var query = new DogsQuery();
         var dogs = await _mediator.Send(query);
         return Ok(dogs);
     }
 
     [Route("dog")]
     [HttpPost]
-    public async Task<IActionResult> CreateDog([FromBody] CreateDogCommand command)
+    public async Task<IActionResult> RegisterDog([FromBody] RegisterDogCommand command)
     {
         if (command == null)
         {
@@ -37,7 +35,7 @@ public class DogController : ControllerBase
         var result = await _mediator.Send(command);
         if (result)
         {
-            return CreatedAtAction(nameof(GetDogs), new { name = command.Name }, command);
+            return CreatedAtAction(nameof(QueryDogs), new { name = command.name }, command);
         }
 
         return BadRequest("Failed to create dog.");

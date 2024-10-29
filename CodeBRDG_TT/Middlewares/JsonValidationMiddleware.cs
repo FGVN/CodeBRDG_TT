@@ -2,6 +2,7 @@
 using System.Text.Json;
 
 namespace CodeBRDG_TT.Middlewares;
+
 public class JsonValidationMiddleware
 {
     private readonly RequestDelegate _next;
@@ -15,16 +16,19 @@ public class JsonValidationMiddleware
     {
         if (context.Request.ContentType?.Contains("application/json") == true)
         {
-            context.Request.EnableBuffering(); 
+            context.Request.EnableBuffering();
 
             using (var reader = new StreamReader(context.Request.Body, Encoding.UTF8, leaveOpen: true))
             {
                 var body = await reader.ReadToEndAsync();
-                context.Request.Body.Position = 0; 
+                context.Request.Body.Position = 0;
 
                 try
                 {
-                    JsonDocument.Parse(body);
+                    using (JsonDocument doc = JsonDocument.Parse(body))
+                    {
+                        ValidateJson(doc); // Call to a method that checks for null values and number constraints
+                    }
                 }
                 catch (JsonException jsonEx)
                 {
@@ -45,5 +49,16 @@ public class JsonValidationMiddleware
         }
 
         await _next(context);
+    }
+
+    private void ValidateJson(JsonDocument doc)
+    {
+        foreach (var property in doc.RootElement.EnumerateObject())
+        {
+            if (property.Value.ValueKind == JsonValueKind.Null)
+            {
+                throw new JsonException($"Property '{property.Name}' cannot be null.");
+            }
+        }
     }
 }

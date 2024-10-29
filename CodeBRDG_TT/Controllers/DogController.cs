@@ -27,17 +27,9 @@ public class DogController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> RegisterDog([FromBody] RegisterDogCommand command)
     {
-        if (command == null)
-        {
-            return BadRequest("Dog data is required.");
-        }
-
         var result = await _mediator.Send(command);
-        if (result)
-        {
-            return CreatedAtAction(nameof(QueryDogs), new { name = command.name }, command);
-        }
-
-        return BadRequest("Failed to create dog.");
+        return result
+            ? CreatedAtAction(nameof(QueryDogs), new { name = command.name }, command)
+            : BadRequest("Failed to create dog.");
     }
 }

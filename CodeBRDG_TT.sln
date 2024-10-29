@@ -5,6 +5,8 @@ VisualStudioVersion = 17.9.34902.65
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBRDG_TT", "CodeBRDG_TT\CodeBRDG_TT.csproj", "{A7E1E931-61C1-423F-B1B3-60391DEC35FA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeBRDG_TT.Tests", "CodeBRDG_TT.Tests\CodeBRDG_TT.Tests.csproj", "{F5A09F99-10EE-4BBF-91BE-9A7F56B9F01A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A7E1E931-61C1-423F-B1B3-60391DEC35FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7E1E931-61C1-423F-B1B3-60391DEC35FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7E1E931-61C1-423F-B1B3-60391DEC35FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5A09F99-10EE-4BBF-91BE-9A7F56B9F01A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5A09F99-10EE-4BBF-91BE-9A7F56B9F01A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5A09F99-10EE-4BBF-91BE-9A7F56B9F01A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5A09F99-10EE-4BBF-91BE-9A7F56B9F01A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

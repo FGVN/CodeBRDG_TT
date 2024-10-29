@@ -17,6 +17,16 @@ public class DogsQueryHandler : IRequestHandler<DogsQuery, List<Dog>>
 
     public async Task<List<Dog>> Handle(DogsQuery request, CancellationToken cancellationToken)
     {
+        if (request.pageNumber < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(request.pageNumber), "Page number must be greater than or equal to 1.");
+        }
+
+        if (request.pageSize <= 0)
+        {
+            throw new ArgumentOutOfRangeException(nameof(request.pageSize), "Page size must be greater than 0.");
+        }
+
         IQueryable<Dog> query = _unitOfWork.Dogs.GetAll();
 
         var propertyInfo = typeof(Dog).GetProperty(request.attribute,

@@ -1,9 +1,6 @@
-using CodeBRDG_TT.Models;
 using CodeBRDG_TT.Queries;
 using CodeBRDG_TT.Validators;
-using FluentAssertions;
 using FluentValidation.TestHelper;
-using Xunit;
 
 namespace CodeBRDG_TT.Tests.Validators;
 
@@ -22,10 +19,10 @@ public class DogsQueryValidatorTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 10
+            Attribute = "weight",
+            Order = "asc",
+            PageNumber= 1,
+            PageSize = 10
         };
 
         // Act & Assert
@@ -39,15 +36,15 @@ public class DogsQueryValidatorTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "invalid_attribute", 
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 10
+            Attribute = "invalid_attribute", 
+            Order = "asc",
+            PageNumber= 1,
+            PageSize = 10
         };
 
         // Act & Assert
         var result = _validator.TestValidate(query);
-        result.ShouldHaveValidationErrorFor(q => q.attribute)
+        result.ShouldHaveValidationErrorFor(q => q.Attribute)
             .WithErrorMessage("Invalid attribute name for sorting.");
     }
 
@@ -57,15 +54,15 @@ public class DogsQueryValidatorTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "wrong_order", 
-            pageNumber = 1,
-            pageSize = 10
+            Attribute = "weight",
+            Order = "wrong_order", 
+            PageNumber= 1,
+            PageSize = 10
         };
 
         // Act & Assert
         var result = _validator.TestValidate(query);
-        result.ShouldHaveValidationErrorFor(q => q.order)
+        result.ShouldHaveValidationErrorFor(q => q.Order)
             .WithErrorMessage("Order must be 'asc' or 'desc'.");
     }
 
@@ -75,15 +72,15 @@ public class DogsQueryValidatorTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "asc",
-            pageNumber = 0,
-            pageSize = 10
+            Attribute = "weight",
+            Order = "asc",
+            PageNumber= 0,
+            PageSize = 10
         };
 
         // Act & Assert
         var result = _validator.TestValidate(query);
-        result.ShouldHaveValidationErrorFor(q => q.pageNumber)
+        result.ShouldHaveValidationErrorFor(q => q.PageNumber)
             .WithErrorMessage("Page number must be greater than zero.");
     }
 
@@ -93,15 +90,15 @@ public class DogsQueryValidatorTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 0 
+            Attribute = "weight",
+            Order = "asc",
+            PageNumber= 1,
+            PageSize = 0 
         };
 
         // Act & Assert
         var result = _validator.TestValidate(query);
-        result.ShouldHaveValidationErrorFor(q => q.pageSize)
+        result.ShouldHaveValidationErrorFor(q => q.PageSize)
             .WithErrorMessage("Page size must be greater than zero.");
     }
 
@@ -111,15 +108,15 @@ public class DogsQueryValidatorTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "", 
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 10
+            Attribute = "", 
+            Order = "asc",
+            PageNumber= 1,
+            PageSize = 10
         };
 
         // Act & Assert
         var result = _validator.TestValidate(query);
-        result.ShouldNotHaveValidationErrorFor(q => q.attribute);
+        result.ShouldNotHaveValidationErrorFor(q => q.Attribute);
     }
 
     [Fact]
@@ -128,14 +125,14 @@ public class DogsQueryValidatorTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "", 
-            pageNumber = 1,
-            pageSize = 10
+            Attribute = "weight",
+            Order = "", 
+            PageNumber = 1,
+            PageSize = 10
         };
 
         // Act & Assert
         var result = _validator.TestValidate(query);
-        result.ShouldNotHaveValidationErrorFor(q => q.order);
+        result.ShouldNotHaveValidationErrorFor(q => q.Order);
     }
 }

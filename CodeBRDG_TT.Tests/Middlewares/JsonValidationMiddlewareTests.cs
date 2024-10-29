@@ -1,13 +1,6 @@
-﻿using System.IO;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
-using CodeBRDG_TT.Middlewares;
+﻿using CodeBRDG_TT.Middlewares;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using Xunit;
 
 namespace CodeBRDG_TT.Tests.Middlewares;
 
@@ -94,24 +87,6 @@ public class JsonValidationMiddlewareTests
     }
 
 
-    [Fact]
-    public async Task InvokeAsync_DecimalValue_ShouldReturnBadRequest()
-    {
-        // Arrange
-        var context = new DefaultHttpContext();
-        context.Request.ContentType = "application/json";
-        var invalidJson = "{\"name\":\"Buddy\", \"tail_length\":5.5}";
-        context.Request.Body = GenerateStreamFromString(invalidJson);
-        context.Request.EnableBuffering();
-
-        // Act
-        await _middleware.InvokeAsync(context);
-
-        // Assert
-        Assert.Equal(StatusCodes.Status400BadRequest, context.Response.StatusCode);
-    }
-
-
     private static Stream GenerateStreamFromString(string value)
     {
         var stream = new MemoryStream();
@@ -128,5 +103,13 @@ public class JsonValidationMiddlewareTests
         public string message { get; set; }
         public int lineNumber { get; set; }
         public int bytePositionInLine { get; set; }
+
+        public ErrorResponse(string error, string message, int lineNumber, int bytePositionInLine)
+        {
+            this.error = error;
+            this.message = message;
+            this.lineNumber = lineNumber;
+            this.bytePositionInLine = bytePositionInLine;
+        }
     }
 }

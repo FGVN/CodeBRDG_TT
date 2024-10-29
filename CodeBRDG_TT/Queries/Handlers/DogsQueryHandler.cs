@@ -17,19 +17,19 @@ public class DogsQueryHandler : IRequestHandler<DogsQuery, List<Dog>>
 
     public async Task<List<Dog>> Handle(DogsQuery request, CancellationToken cancellationToken)
     {
-        if (request.pageNumber < 1)
+        if (request.PageNumber < 1)
         {
-            throw new ArgumentOutOfRangeException(nameof(request.pageNumber), "Page number must be greater than or equal to 1.");
+            throw new ArgumentOutOfRangeException(nameof(request.PageNumber), "Page number must be greater than or equal to 1.");
         }
 
-        if (request.pageSize <= 0)
+        if (request.PageSize <= 0)
         {
-            throw new ArgumentOutOfRangeException(nameof(request.pageSize), "Page size must be greater than 0.");
+            throw new ArgumentOutOfRangeException(nameof(request.PageSize), "Page size must be greater than 0.");
         }
 
         IQueryable<Dog> query = _unitOfWork.Dogs.GetAll();
 
-        var propertyInfo = typeof(Dog).GetProperty(request.attribute,
+        var propertyInfo = typeof(Dog).GetProperty(request.Attribute,
             System.Reflection.BindingFlags.IgnoreCase | System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Instance);
 
         if (propertyInfo != null)
@@ -37,8 +37,6 @@ public class DogsQueryHandler : IRequestHandler<DogsQuery, List<Dog>>
             var parameter = Expression.Parameter(typeof(Dog), "d");
             var propertyAccess = Expression.MakeMemberAccess(parameter, propertyInfo);
 
-            // Check if the property type is nullable
-            //if (propertyInfo.PropertyType.IsValueType && Nullable.GetUnderlyingType(propertyInfo.PropertyType) == null)
             if (!propertyInfo.PropertyType.IsValueType && Nullable.GetUnderlyingType(propertyInfo.PropertyType) != null)
             {
                 var isNotNull = Expression.NotEqual(propertyAccess, Expression.Constant(null));
@@ -47,20 +45,18 @@ public class DogsQueryHandler : IRequestHandler<DogsQuery, List<Dog>>
             }
         }
 
-        // Apply ordering
-        if (request.order?.ToLower() == "desc")
+        if (request.Order?.ToLower() == "desc")
         {
-            query = query.OrderByDescending(d => EF.Property<object>(d, request.attribute));
+            query = query.OrderByDescending(d => EF.Property<object>(d, request.Attribute));
         }
         else
         {
-            query = query.OrderBy(d => EF.Property<object>(d, request.attribute));
+            query = query.OrderBy(d => EF.Property<object>(d, request.Attribute));
         }
 
-        // Apply pagination
         var dogs = await query
-            .Skip((request.pageNumber - 1) * request.pageSize)
-            .Take(request.pageSize)
+            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Take(request.PageSize)
             .ToListAsync(cancellationToken);
 
         return dogs;

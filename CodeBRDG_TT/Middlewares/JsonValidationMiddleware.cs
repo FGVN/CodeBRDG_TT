@@ -27,7 +27,7 @@ public class JsonValidationMiddleware
                 {
                     using (JsonDocument doc = JsonDocument.Parse(body))
                     {
-                        ValidateJson(doc); // Call to a method that checks for null values and number constraints
+                        ValidateJson(doc);
                     }
                 }
                 catch (JsonException jsonEx)

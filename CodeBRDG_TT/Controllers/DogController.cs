@@ -17,7 +17,7 @@ public class DogController : ControllerBase
 
     [Route("dogs")]
     [HttpGet]
-    public async Task<IActionResult> QueryDogs([FromQuery]DogsQuery query)
+    public async Task<IActionResult> QueryDogs([FromQuery] DogsQuery query)
     {
         var dogs = await _mediator.Send(query);
         return Ok(dogs);
@@ -29,7 +29,7 @@ public class DogController : ControllerBase
     {
         var result = await _mediator.Send(command);
         return result
-            ? CreatedAtAction(nameof(QueryDogs), new { name = command.name }, command)
+            ? CreatedAtAction(nameof(QueryDogs), new { name = command.Name }, command)
             : BadRequest("Failed to create dog.");
     }
 }

@@ -4,8 +4,16 @@ namespace CodeBRDG_TT.Commands;
 
 public class RegisterDogCommand : IRequest<bool>
 {
-    public string name { get; set; }
-    public string color { get; set; }
-    public decimal tail_length { get; set; }
-    public decimal weight { get; set; }
+    public string Name { get; set; }
+    public string Color { get; set; }
+    public decimal TailLength { get; set; }
+    public decimal Weight { get; set; }
+
+    public RegisterDogCommand(string name, string color, decimal tailLength, decimal weight)
+    {
+        Name = name;
+        Color = color;
+        TailLength = tailLength;
+        Weight = weight;
+    }
 }

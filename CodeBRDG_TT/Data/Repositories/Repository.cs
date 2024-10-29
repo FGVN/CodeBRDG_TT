@@ -17,7 +17,6 @@ public class Repository<T> : IRepository<T> where T : class
         return await _dbSet.FindAsync(name);
     }
 
-    // No eager loading for getall and find
     public IQueryable<T> GetAll()
     {
         return _dbSet.AsQueryable();

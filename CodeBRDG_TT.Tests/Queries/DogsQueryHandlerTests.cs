@@ -6,11 +6,6 @@ using CodeBRDG_TT.Queries.Handlers;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Xunit;
 
 namespace CodeBRDG_TT.Tests.Queries;
 
@@ -42,10 +37,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 30
+            Attribute = "Weight",
+            Order = "asc",
+            PageNumber = 1,
+            PageSize = 30
         };
 
         // Act
@@ -53,8 +48,8 @@ public class DogsQueryHandlerTests
 
         // Assert
         result.Should().HaveCount(5);
-        result.First().name.Should().Be("Rex"); 
-        result.Last().name.Should().Be("Buddy"); 
+        result.First().Name.Should().Be("Daisy"); 
+        result.Last().Name.Should().Be("Charlie"); 
     }
 
     [Fact]
@@ -63,10 +58,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "desc",
-            pageNumber = 1,
-            pageSize = 5
+            Attribute = "Weight",
+            Order = "desc",
+            PageNumber = 1,
+            PageSize = 5
         };
 
         // Act
@@ -74,8 +69,8 @@ public class DogsQueryHandlerTests
 
         // Assert
         result.Should().HaveCount(5);
-        result.First().name.Should().Be("Buddy"); 
-        result.Last().name.Should().Be("Rex");
+        result.First().Name.Should().Be("Charlie"); 
+        result.Last().Name.Should().Be("Daisy");
     }
 
     [Fact]
@@ -84,10 +79,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "color",
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 5
+            Attribute = "Color",
+            Order = "asc",
+            PageNumber = 1,
+            PageSize = 5
         };
 
         // Act
@@ -95,8 +90,8 @@ public class DogsQueryHandlerTests
 
         // Assert
         result.Should().HaveCount(5);
-        result.First().name.Should().Be("Daisy"); // Alphabetically first
-        result.Last().name.Should().Be("Rex"); // Alphabetically last 
+        result.First().Name.Should().Be("Daisy"); // Alphabetically first
+        result.Last().Name.Should().Be("Rex"); // Alphabetically last 
     }
 
     [Fact]
@@ -105,10 +100,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "asc",
-            pageNumber = 2, // pageNumber > total pages available
-            pageSize = 10
+            Attribute = "Weight",
+            Order = "asc",
+            PageNumber = 2, // PageNumber > total pages available
+            PageSize = 10
         };
 
         // Act
@@ -124,10 +119,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "invalidAttribute", // Invalid attribute
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 3
+            Attribute = "invalidAttribute", // Invalid Attribute
+            Order = "asc",
+            PageNumber = 1,
+            PageSize = 3
         };
 
         // Act
@@ -143,10 +138,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "color",
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 1
+            Attribute = "Color",
+            Order = "asc",
+            PageNumber = 1,
+            PageSize = 1
         };
 
         // Act
@@ -154,7 +149,7 @@ public class DogsQueryHandlerTests
 
         // Assert
         result.Should().HaveCount(1);
-        result.First().name.Should().Be("Daisy");
+        result.First().Name.Should().Be("Daisy");
     }
 
     [Fact]
@@ -163,10 +158,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 2
+            Attribute = "Weight",
+            Order = "asc",
+            PageNumber = 1,
+            PageSize = 2
         };
 
         // Act
@@ -174,7 +169,7 @@ public class DogsQueryHandlerTests
 
         // Assert
         result.Should().HaveCount(2);
-        result.Last().name.Should().Be("Daisy"); 
+        result.Last().Name.Should().Be("Max"); 
     }
 
     [Fact]
@@ -183,10 +178,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 0 // Invalid page size
+            Attribute = "weight",
+            Order = "asc",
+            PageNumber = 1,
+            PageSize = 0 // Invalid page size
         };
 
         // Act
@@ -202,10 +197,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "color",
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 5
+            Attribute = "Color",
+            Order = "asc",
+            PageNumber = 1,
+            PageSize = 5
         };
 
         // Act
@@ -213,8 +208,8 @@ public class DogsQueryHandlerTests
 
         // Assert
         result.Should().HaveCount(5);
-        result.First().name.Should().Be("Daisy"); // First in alphabetical order
-        result.Last().name.Should().Be("Rex"); // Last in alphabetical order
+        result.First().Name.Should().Be("Daisy"); // First in alphabetical Order
+        result.Last().Name.Should().Be("Rex"); // Last in alphabetical Order
     }
 
     [Fact]
@@ -223,10 +218,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "asc",
-            pageNumber = -1, // Invalid page number
-            pageSize = 5
+            Attribute = "weight",
+            Order = "asc",
+            PageNumber = -1, // Invalid page number
+            PageSize = 5
         };
 
         // Act
@@ -242,10 +237,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "asc",
-            pageNumber = 1,
-            pageSize = 100 // Larger than total dogs
+            Attribute = "Weight",
+            Order = "asc",
+            PageNumber = 1,
+            PageSize = 100 // Larger than total dogs
         };
 
         // Act
@@ -261,10 +256,10 @@ public class DogsQueryHandlerTests
         // Arrange
         var query = new DogsQuery
         {
-            attribute = "weight",
-            order = "asc",
-            pageNumber = 1,
-            pageSize = -1 // Invalid page size
+            Attribute = "weight",
+            Order = "asc",
+            PageNumber = 1,
+            PageSize = -1 // Invalid page size
         };
 
         // Act

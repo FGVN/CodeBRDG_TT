@@ -17,8 +17,8 @@ public class DogCommandValidatorTests
         _unitOfWorkMock.Setup(u => u.Dogs.GetAll())
             .Returns(new List<Dog>
             {
-                new Dog { name = "Bolt" },
-                new Dog { name = "Jessie" }
+                new Dog ( "Bolt", "white", 10, 5 ),
+                new Dog ( "Jessie", "goldenbrown", 2, 13 )
             }.AsQueryable());
 
         _validator = new DogCommandValidator(_unitOfWorkMock.Object);
@@ -28,13 +28,7 @@ public class DogCommandValidatorTests
     public void Validate_ValidCommand_ShouldNotHaveValidationError()
     {
         // Arrange
-        var command = new RegisterDogCommand
-        {
-            name = "Rocky",
-            color = "Brown",
-            tail_length = 5,
-            weight = 20
-        };
+        var command = new RegisterDogCommand("Rocky", "Brown", 5, 20);
 
         // Act & Assert
         var result = _validator.TestValidate(command);
@@ -45,17 +39,11 @@ public class DogCommandValidatorTests
     public void Validate_EmptyName_ShouldHaveValidationError()
     {
         // Arrange
-        var command = new RegisterDogCommand
-        {
-            name = "",
-            color = "Brown",
-            tail_length = 5,
-            weight = 20
-        };
+        var command = new RegisterDogCommand("", "Brown", 5, 20);
 
         // Act & Assert
         var result = _validator.TestValidate(command);
-        result.ShouldHaveValidationErrorFor(c => c.name)
+        result.ShouldHaveValidationErrorFor(c => c.Name)
             .WithErrorMessage("Dog name is required.");
     }
 
@@ -63,17 +51,11 @@ public class DogCommandValidatorTests
     public void Validate_DuplicateName_ShouldHaveValidationError()
     {
         // Arrange
-        var command = new RegisterDogCommand
-        {
-            name = "Bolt",  
-            color = "Brown",
-            tail_length = 5,
-            weight = 20
-        };
+        var command = new RegisterDogCommand("Bolt",  "Brown", 5, 20);
 
         // Act & Assert
         var result = _validator.TestValidate(command);
-        result.ShouldHaveValidationErrorFor(c => c.name)
+        result.ShouldHaveValidationErrorFor(c => c.Name)
             .WithErrorMessage("A dog with this name already exists.");
     }
 
@@ -81,17 +63,11 @@ public class DogCommandValidatorTests
     public void Validate_EmptyColor_ShouldHaveValidationError()
     {
         // Arrange
-        var command = new RegisterDogCommand
-        {
-            name = "Rocky",
-            color = "",
-            tail_length = 5,
-            weight = 20
-        };
+        var command = new RegisterDogCommand("Rocky", "", 5, 20);
 
         // Act & Assert
         var result = _validator.TestValidate(command);
-        result.ShouldHaveValidationErrorFor(c => c.color)
+        result.ShouldHaveValidationErrorFor(c => c.Color)
             .WithErrorMessage("Color is required.");
     }
 
@@ -99,17 +75,11 @@ public class DogCommandValidatorTests
     public void Validate_NonPositiveTailLength_ShouldHaveValidationError()
     {
         // Arrange
-        var command = new RegisterDogCommand
-        {
-            name = "Rocky",
-            color = "Brown",
-            tail_length = -1,  
-            weight = 20
-        };
+        var command = new RegisterDogCommand("Rocky", "Brown", -1, 20);
 
         // Act & Assert
         var result = _validator.TestValidate(command);
-        result.ShouldHaveValidationErrorFor(c => c.tail_length)
+        result.ShouldHaveValidationErrorFor(c => c.TailLength)
             .WithErrorMessage("Tail length must be greater than zero.");
     }
 
@@ -117,17 +87,11 @@ public class DogCommandValidatorTests
     public void Validate_NonPositiveWeight_ShouldHaveValidationError()
     {
         // Arrange
-        var command = new RegisterDogCommand
-        {
-            name = "Rocky",
-            color = "Brown",
-            tail_length = 5,
-            weight = 0 
-        };
+        var command = new RegisterDogCommand("Rocky","Brown",5, 0);
 
         // Act & Assert
         var result = _validator.TestValidate(command);
-        result.ShouldHaveValidationErrorFor(c => c.weight)
+        result.ShouldHaveValidationErrorFor(c => c.Weight)
             .WithErrorMessage("Weight must be greater than zero.");
     }
 }

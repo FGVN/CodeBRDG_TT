@@ -28,11 +28,10 @@ namespace CodeBRDG_TT.API
             // Arrange
             var successfulResponses = 0;
             var failedResponses = 0;
-            var tasks = new Task<HttpResponseMessage>[20]; // Total requests
+            var tasks = new Task<HttpResponseMessage>[20]; 
 
             for (int i = 0; i < 20; i++)
             {
-                // The number of successful requests should be equal to the permit limit
                 if (i < _permitLimit) 
                 {
                     tasks[i] = _client.GetAsync("/ping");
@@ -61,8 +60,8 @@ namespace CodeBRDG_TT.API
                 }
             }
 
-            Assert.Equal(_permitLimit, successfulResponses); // Only permitLimit should be successful
-            Assert.Equal(20 - _permitLimit, failedResponses); // The rest should be rate limited
+            Assert.Equal(_permitLimit, successfulResponses); 
+            Assert.Equal(20 - _permitLimit, failedResponses);
         }
     }
 }

@@ -13,15 +13,13 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-
-        //Specifying the precision so the values wont get truncated
         modelBuilder.Entity<Dog>(entity =>
         {
-            entity.Property(d => d.tail_length)
+            entity.Property(d => d.TailLength)
                 .HasColumnType("decimal(18, 2)")
                 .IsRequired();
 
-            entity.Property(d => d.weight)
+            entity.Property(d => d.Weight)
                 .HasColumnType("decimal(18, 2)") 
                 .IsRequired(); 
         });

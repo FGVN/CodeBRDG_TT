@@ -68,6 +68,5 @@ public class ValidationPipelineBehaviorTests
     }
 }
 
-// Supporting classes 
 public class TestRequest : IRequest<TestResponse> { }
 public class TestResponse { }

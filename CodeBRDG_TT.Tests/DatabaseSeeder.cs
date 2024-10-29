@@ -18,11 +18,11 @@ public static class DatabaseSeeder
     {
         var dogs = new List<Dog>
         {
-            new Dog { name = "Buddy", weight = 30, tail_length = 6, color = "brown" },
-            new Dog { name = "Rex", weight = 20, tail_length = 5, color = "white & black" },
-            new Dog { name = "Max", weight = 25, tail_length = 4, color = "ultramarine" },
-            new Dog { name = "Charlie", weight = 28, tail_length = 7, color = "golden" },
-            new Dog { name = "Daisy", weight = 22, tail_length = 3, color = "black" }
+            new Dog ("Buddy", "brown", 30, 6 ),
+            new Dog ("Rex", "white & black", 20, 5 ),
+            new Dog ("Max", "ultramarine", 25, 4 ),
+            new Dog ("Charlie", "golden", 28, 7 ),
+            new Dog ("Daisy", "black", 22, 3 )
         };
 
         SeedDogs(context, dogs); 

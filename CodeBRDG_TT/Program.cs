@@ -19,12 +19,10 @@ public class Program
         var permitLimit = builder.Configuration.GetValue<int>("RateLimiting:PermitLimit");
         var windowInSeconds = builder.Configuration.GetValue<int>("RateLimiting:WindowInSeconds");
 
-        // Register Rate Limiter with the policy
         builder.Services.AddRateLimiter(_ =>
         {
             _.OnRejected = (context, _) =>
             {
-                // Set Retry-After header if applicable
 
                 string retryMessage = string.Empty;
                 if (context.Lease.TryGetMetadata(MetadataName.RetryAfter, out var retryAfter))
@@ -32,12 +30,9 @@ public class Program
                     context.HttpContext.Response.Headers.RetryAfter =
                         ((int)retryAfter.TotalSeconds).ToString();
 
-                    // Create a retry message
                     retryMessage = $" Please try again in {retryAfter.TotalSeconds} seconds.";
                 }
 
-
-                // Set the response status code and content
                 context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
                 context.HttpContext.Response.ContentType = "application/json";
 
@@ -87,7 +82,6 @@ public class Program
         app.UseAuthorization();
         app.UseMiddleware<JsonValidationMiddleware>();
 
-        // Apply Rate Limiting
         app.UseRateLimiter();
 
         app.MapControllers().RequireRateLimiting("RequestsPerFrame");

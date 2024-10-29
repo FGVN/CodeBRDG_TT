@@ -15,21 +15,15 @@ public class RegisterDogCommandHandler : IRequestHandler<RegisterDogCommand, boo
 
     public async Task<bool> Handle(RegisterDogCommand request, CancellationToken cancellationToken)
     {
-        if (request.weight < 0)
-            throw new ArgumentOutOfRangeException(nameof(request.weight), "Weight must be greater than or equal to zero.");
+        if (request.Weight < 0)
+            throw new ArgumentOutOfRangeException(nameof(request.Weight), "Weight must be greater than or equal to zero.");
         
 
-        if (request.tail_length < 0)
-            throw new ArgumentOutOfRangeException(nameof(request.tail_length), "Tail length must be greater than or equal to zero.");
+        if (request.TailLength < 0)
+            throw new ArgumentOutOfRangeException(nameof(request.TailLength), "Tail length must be greater than or equal to zero.");
         
 
-        var dog = new Dog
-        {
-            name = request.name,
-            color = request.color,
-            tail_length = request.tail_length,
-            weight = request.weight
-        };
+        var dog = new Dog( request.Name, request.Color, request.TailLength, request.Weight);
 
         await _unitOfWork.Dogs.AddAsync(dog); 
 

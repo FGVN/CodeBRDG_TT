@@ -11,6 +11,7 @@ public class UnitOfWork : IUnitOfWork
     public UnitOfWork(AppDbContext context)
     {
         _context = context;
+        _dogs ??= new Repository<Dog>(_context);
     }
 
     public IRepository<Dog> Dogs => _dogs ??= new Repository<Dog>(_context);
